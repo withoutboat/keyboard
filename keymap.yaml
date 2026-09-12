@@ -5,14 +5,14 @@ layout:
 
 layers:
   "Base (EN / RU)":
-    - [Esc,   {t: "Q", sub: "Й"}, {t: "W", sub: "Ц"}, {t: "E", sub: "У"}, {t: "R", sub: "К"}, {t: "T", sub: "Е"},    {t: "Y", sub: "Н"}, {t: "U", sub: "Г"}, {t: "I", sub: "Ш"}, {t: "O", sub: "Щ"}, {t: "P", sub: "З"},   Bspc]
-    - [Tab,   {t: "A", sub: "Ф"}, {t: "S", sub: "Ы"}, {t: "D", sub: "В"}, {t: "F", sub: "А"}, {t: "G", sub: "П"},    {t: "H", sub: "Р"}, {t: "J", sub: "О"}, {t: "K", sub: "Л"}, {t: "L", sub: "Д"}, {t: ";", sub: "Ж"},  {t: "Lang", h: "F24"}]
-    - [Shift, {t: "Z", sub: "Я"}, {t: "X", sub: "Ч"}, {t: "C", sub: "С"}, {t: "V", sub: "М"}, {t: "B", sub: "И"},    {t: "N", sub: "Т"}, {t: "M", sub: "Ь"}, {t: ",", sub: "Б"}, {t: ".", sub: "Ю"}, {t: "/", sub: "."},  Shift]
+    - [Esc,   {t: "Q", br: "Й"}, {t: "W", br: "Ц"}, {t: "E", br: "У"}, {t: "R", br: "К"}, {t: "T", br: "Е"},    {t: "Y", br: "Н"}, {t: "U", br: "Г"}, {t: "I", br: "Ш"}, {t: "O", br: "Щ"}, {t: "P", br: "З"},   Bspc]
+    - [Tab,   {t: "A", br: "Ф"}, {t: "S", br: "Ы"}, {t: "D", br: "В"}, {t: "F", br: "А"}, {t: "G", br: "П"},    {t: "H", br: "Р"}, {t: "J", br: "О"}, {t: "K", br: "Л"}, {t: "L", br: "Д"}, {t: ";", br: "Ж"},  {t: "Lang", h: "F24"}]
+    - [Shift, {t: "Z", br: "Я"}, {t: "X", br: "Ч"}, {t: "C", br: "С"}, {t: "V", br: "М"}, {t: "B", br: "И"},    {t: "N", br: "Т"}, {t: "M", br: "Ь"}, {t: ",", br: "Б"}, {t: ".", br: "Ю"}, {t: "/", br: "."},  Shift]
     - [Ctrl,  Win, Space,                                                                                              Enter,            {t: "Fn", h: "Num"}, {t: "Ctrl", h: "Sym"}]
 
   "Lower (Num & Ru: Х Ъ Ё)":
-    - [{t: "`", sub: "Ё"}, 1, 2, 3, 4, 5,    6, 7, 8, 9, 0, Del]
-    - [Trans, Trans, Trans, Trans, Trans, Trans,    {t: "[", sub: "Х"}, {t: "]", sub: "Ъ"}, '=', '-', '\\', Trans]
+    - [{t: "`", br: "Ё"}, 1, 2, 3, 4, 5,    6, 7, 8, 9, 0, Del]
+    - [Trans, Trans, Trans, Trans, Trans, Trans,    {t: "[", br: "Х"}, {t: "]", br: "Ъ"}, '=', '-', '\\', Trans]
     - [Trans, Trans, Trans, Trans, Trans, Trans,    Trans, Trans, Trans, Trans, Trans, Trans]
     - [Trans, Trans, Trans,                         Trans, Trans, Trans]
 
