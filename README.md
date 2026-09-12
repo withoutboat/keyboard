@@ -11,7 +11,7 @@
 * `keymap.yaml` — декларативное описание всех слоев (QWERTY, Lower, Raise) для визуализации.
 * `.github/workflows/draw.yml` — GitHub Action, который при каждом push автоматически генерирует `keymap.svg` через `keymap-drawer`.
 * `layout.json` — конфигурация раскладки с QMK-кейкодами для программной записи в клавиатуру.
-* `apply_layout.py` — скрипт автоматической отправки раскладки в клавиатуру через утилиту `vitaly`.
+* `apply_layout.sh` — Bash-скрипт отправки раскладки в клавиатуру через `vitaly` и `jq`.
 
 ---
 
