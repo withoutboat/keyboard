@@ -1,50 +1,49 @@
-# Corne Wireless (W-Corne / DH747) Keyboard Setup & Notes
+# W-Corne / DH747 Keyboard Configuration
 
-Documentation and declarative multi-layer configuration for the **W-Corne (DH747)** split ergonomic keyboard.
+Declarative multi-layer configuration and automated keymap drawer for **DH747 W-Corne (46 keys)** split wireless keyboard.
 
-![Keymap Visualization](./keymap.svg)
-
----
-
-## 1. Dual EN / RU Layout Architecture (Windows Standard)
-
-On Linux/Wayland with `kb_layout = "us,ru"`, the key scan-codes correspond directly to standard Windows/QWERTY positions:
-
-* **Layer 0 (Base - QWERTY & ЙЦУКЕН):**
-  * `Q..P` -> `Й..З`
-  * `A..L, ;` -> `Ф..Д, Ж`
-  * `Z..M, ,, ., /` -> `Я..Ь, Б, Ю, .` (стандартная точка в русской раскладке Windows)
-  * Dedicated outer key on Row 2 -> **`F24`** (Language toggle for Hyprland).
-
-* **Layer 1 (Lower - Numbers & Russian Extra Letters: Х, Ъ, Ё):**
-  * Top row: `` ` `` (**`Ё`** in Russian), `1..0`, `Del`.
-  * Middle row: `[` (**`Х`** in Russian), `]` (**`Ъ`** in Russian), `=`, `-`, `\`.
-  * Activated by holding the right-hand **`Fn`** thumb key (`MO(1)`).
-
-* **Layer 2 (Raise - Navigation, F1-F12 & Media):**
-  * Top row: `F1..F12`.
-  * Middle row: Arrow keys (`Left`, `Down`, `Up`, `Right`), `Home`, `PageUp`.
-  * Bottom row: Media keys (`Mute`, `Vol-`, `Vol+`, `End`, `PageDown`, `Prev`, `Play`, `Next`).
-  * Activated by holding the right-hand **`Ctrl`** thumb key (`MO(2)`).
+![Keymap Layers](keymap.svg)
 
 ---
 
-## 2. Language Switching (RU / EN)
+## Key Features
 
-The right-half Row 2 outer key is mapped to **`F24`** (`KC_F24`), avoiding any desktop modifier collisions.
+1. **46 Physical Keys Layout**:
+   * 36 main alphas/mods (3 rows x 6 cols per half).
+   * 6 thumb keys (3 per half).
+   * 4 vertical macro side keys:
+     * **Left**: `Caps Lock` (top), `Left Alt` (bottom).
+     * **Right**: `Right Ctrl` (top), `Right Alt` (bottom).
 
-### Hyprland Configuration:
-Add to `hyprland.lua`:
-```lua
-hl.bind("", "F24", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
-```
+2. **Hold / Tap Layer Switching**:
+   * **Fn (Lower Layer 1 - Num & Ru: Х Ъ Ё)**:
+     * **Hold**: Temporarily activates Lower layer (while held).
+     * **Tap**: Sends `F21` to notify system/Waybar and locks into Layer 1. Tap again to return to Base (`F20`).
+   * **Del (Raise Layer 2 - Nav, Function & Media)**:
+     * **Hold**: Temporarily activates Raise layer (while held).
+     * **Tap**: Sends `F22` to notify system/Waybar and locks into Layer 2. Tap again to return to Base (`F20`).
+
+3. **Dedicated Language Switch (`F24`)**:
+   * Semicolon column outer key on the Base layer is mapped to `KC_F24`.
+   * Bind in `hyprland.conf`:
+     ```ini
+     bind = , F24, exec, hyprctl switchxkblayout all next
+     ```
+
+4. **Layer Status Signaling for Waybar / Hyprland (`F20`, `F21`, `F22`)**:
+   * `F20`: Base layer active (Default)
+   * `F21`: Lower layer active (Numbers / Ru extra letters)
+   * `F22`: Raise layer active (Arrows / Navigation / Media)
 
 ---
 
-## 3. Applying Multi-Layer Layout via CLI
+## Flashing / Applying Layout to Keyboard
 
-Run from the repository root:
+Prerequisites:
+- `vitaly` CLI (`cargo install vitaly`)
+- `jq` (`nix-shell -p jq` or package manager)
+
+Run:
 ```bash
-nix-shell -p jq --run ./apply_layout.sh
+./apply_layout.sh
 ```
-The script programs Layer 0 (Base), Layer 1 (Lower/Numbers/Х/Ъ/Ё), and Layer 2 (Raise/Nav/Media) directly into the keyboard via `vitaly`.
