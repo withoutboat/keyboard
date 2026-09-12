@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# apply_layout.sh - Apply layout.json to Vial/VIA keyboard using 'vitaly' and 'jq'
+# apply_layout.sh - Apply layout.json layers to Vial/VIA keyboard using 'vitaly' and 'jq'
 
 if ! command -v vitaly >/dev/null 2>&1; then
   echo "Error: 'vitaly' CLI is not installed or not in PATH."
@@ -26,21 +26,27 @@ fi
 echo "==> Connected keyboards:"
 vitaly devices || true
 
+layer_count=$(jq '.layers | length' "$LAYOUT_FILE")
+
 echo ""
-echo "==> Applying layout from layout.json to Layer 0..."
+echo "==> Found $layer_count layers to apply from layout.json..."
 
-row_count=$(jq '.layout | length' "$LAYOUT_FILE")
-
-for ((row = 0; row < row_count; row++)); do
-  col_count=$(jq ".layout[$row] | length" "$LAYOUT_FILE")
-  for ((col = 0; col < col_count; col++)); do
-    keycode=$(jq -r ".layout[$row][$col]" "$LAYOUT_FILE")
-    echo "Setting R${row}C${col} -> ${keycode}"
-    vitaly set-key --layer 0 --row "$row" --col "$col" "$keycode" || {
-      echo "Warning: failed to set R${row}C${col} to $keycode"
-    }
+for ((layer = 0; layer < layer_count; layer++)); do
+  layer_name=$(jq -r ".layers[$layer].name" "$LAYOUT_FILE")
+  echo ""
+  echo "--- Programming Layer $layer: $layer_name ---"
+  
+  row_count=$(jq ".layers[$layer].matrix | length" "$LAYOUT_FILE")
+  for ((row = 0; row < row_count; row++)); do
+    col_count=$(jq ".layers[$layer].matrix[$row] | length" "$LAYOUT_FILE")
+    for ((col = 0; col < col_count; col++)); do
+      keycode=$(jq -r ".layers[$layer].matrix[$row][$col]" "$LAYOUT_FILE")
+      vitaly set-key --layer "$layer" --row "$row" --col "$col" "$keycode" || {
+        echo "Warning: failed setting Layer $layer R${row}C${col} -> $keycode"
+      }
+    done
   done
 done
 
 echo ""
-echo "==> Done! Layout applied successfully."
+echo "==> Done! All layers applied successfully."

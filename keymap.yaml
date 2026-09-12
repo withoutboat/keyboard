@@ -7,20 +7,20 @@ layout:
     name: LAYOUT_split_3x6_3
 
 layers:
-  Base (QWERTY):
-    - [Esc,   Q, W, E, R, T,    Y, U, I,     O,   P,    Bspc]
-    - [Tab,   A, S, D, F, G,    H, J, K,     L,   ';',  {t: "Lang", h: "F24"}]
-    - [Shift, Z, X, C, V, B,    N, M, ',',   '.', '/',  Shift]
-    - [Ctrl,  Win, Space,       Enter, Fn, Ctrl]
+  "Base (EN: QWERTY / RU: ЙЦУКЕН)":
+    - [Esc,   {t: "Q", s: "Й"}, {t: "W", s: "Ц"}, {t: "E", s: "У"}, {t: "R", s: "К"}, {t: "T", s: "Е"},    {t: "Y", s: "Н"}, {t: "U", s: "Г"}, {t: "I", s: "Ш"}, {t: "O", s: "Щ"}, {t: "P", s: "З"},   Bspc]
+    - [Tab,   {t: "A", s: "Ф"}, {t: "S", s: "Ы"}, {t: "D", s: "В"}, {t: "F", s: "А"}, {t: "G", s: "П"},    {t: "H", s: "Р"}, {t: "J", s: "О"}, {t: "K", s: "Л"}, {t: "L", s: "Д"}, {t: ";", s: "Ж"},  {t: "Lang", h: "F24"}]
+    - [Shift, {t: "Z", s: "Я"}, {t: "X", s: "Ч"}, {t: "C", s: "С"}, {t: "V", s: "М"}, {t: "B", s: "И"},    {t: "N", s: "Т"}, {t: "M", s: "Ь"}, {t: ",", s: "Б"}, {t: ".", s: "Ю"}, {t: "/", s: "."},  Shift]
+    - [Ctrl,  Win,            {t: "Space", h: "Nav"},                                                       Enter,            {t: "Fn", h: "Num"}, {t: "Ctrl", h: "Sym"}]
 
-  Lower (Nav & Num):
-    - ['`',   1, 2, 3, 4, 5,    6,    7,    8,     9,     0,     Del]
-    - [Trans, Left, Down, Up, Right, Home,  PgUp,  Minus, '=',   '[',   ']',   '\\']
-    - [Trans, Trans, Trans, Trans, Trans, End,   PgDn,  Trans, Trans, Trans, Trans, Trans]
-    - [Trans, Trans, Trans,     Trans, Trans, Trans]
+  "Lower (Num & Russian Extra: Х Ъ Ё)":
+    - [{t: "`", s: "Ё"}, 1, 2, 3, 4, 5,    6,    7, 8, 9, 0, Del]
+    - [Trans,            Trans, Trans, Trans, Trans, Trans,    {t: "[", s: "Х"}, {t: "]", s: "Ъ"}, '=', '-', '\\', Trans]
+    - [Trans,            Trans, Trans, Trans, Trans, Trans,    Trans,            Trans,            Trans, Trans, Trans, Trans]
+    - [Trans,            Trans, Trans,    Trans,            Trans,            Trans]
 
-  Raise (Symbols):
-    - ['~',   '!', '@', '#', '$', '%',   '^', '&', '*', '(', ')', Del]
-    - [Trans, Trans, Trans, Trans, Trans, Trans,  Left, Down, Up, Right, Trans, Trans]
-    - [Trans, Trans, Trans, Trans, Trans, Trans,  Trans, Trans, Trans, Trans, Trans, Trans]
-    - [Trans, Trans, Trans,     Trans, Trans, Trans]
+  "Raise (Nav & Media)":
+    - [F1,    F2,   F3,   F4,   F5,   F6,     F7,    F8,     F9,   F10,  F11,   F12]
+    - [Trans, Left, Down, Up,   Right, Home,   PgUp,  Left,   Down, Up,   Right, Trans]
+    - [Trans, Trans, Mute, VolDown, VolUp, End,    PgDn,  Prev,   Play, Next,  Trans, Trans]
+    - [Trans, Trans, Trans,                    Trans, Trans,  Trans]

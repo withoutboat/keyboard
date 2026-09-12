@@ -1,107 +1,50 @@
 # Corne Wireless (W-Corne / DH747) Keyboard Setup & Notes
 
-Documentation and declarative configuration for the **W-Corne (DH747)** split ergonomic keyboard.
+Documentation and declarative multi-layer configuration for the **W-Corne (DH747)** split ergonomic keyboard.
 
 ![Keymap Visualization](./keymap.svg)
 
 ---
 
-## 1. Repository Structure
+## 1. Dual EN / RU Layout Architecture (Windows Standard)
 
-* `keymap.yaml` — Declarative definition of all layers (QWERTY, Lower, Raise) rendered via `keymap-drawer`.
-* `.github/workflows/draw.yml` — GitHub Action that automatically regenerates `keymap.svg` on every push.
-* `layout.json` — Matrix layout with QMK keycodes for programming the hardware directly.
-* `apply_layout.sh` — Pure Bash script applying `layout.json` to the keyboard via the `vitaly` CLI and `jq`.
+On Linux/Wayland with `kb_layout = "us,ru"`, the key scan-codes correspond directly to standard Windows/QWERTY positions:
+
+* **Layer 0 (Base - QWERTY & ЙЦУКЕН):**
+  * `Q..P` -> `Й..З`
+  * `A..L, ;` -> `Ф..Д, Ж`
+  * `Z..M, ,, ., /` -> `Я..Ь, Б, Ю, .` (стандартная точка в русской раскладке Windows)
+  * Dedicated outer key on Row 2 -> **`F24`** (Language toggle for Hyprland).
+
+* **Layer 1 (Lower - Numbers & Russian Extra Letters: Х, Ъ, Ё):**
+  * Top row: `` ` `` (**`Ё`** in Russian), `1..0`, `Del`.
+  * Middle row: `[` (**`Х`** in Russian), `]` (**`Ъ`** in Russian), `=`, `-`, `\`.
+  * Activated by holding the right-hand **`Fn`** thumb key (`MO(1)`).
+
+* **Layer 2 (Raise - Navigation, F1-F12 & Media):**
+  * Top row: `F1..F12`.
+  * Middle row: Arrow keys (`Left`, `Down`, `Up`, `Right`), `Home`, `PageUp`.
+  * Bottom row: Media keys (`Mute`, `Vol-`, `Vol+`, `End`, `PageDown`, `Prev`, `Play`, `Next`).
+  * Activated by holding the right-hand **`Ctrl`** thumb key (`MO(2)`).
 
 ---
 
-## 2. Hardware Architecture
+## 2. Language Switching (RU / EN)
 
-* **Form Factor:** Corne (CRKBD) split layout (3x6 column-staggered + 3 thumb keys per half + 2 extra vertical macro keys).
-* **Connectivity:** Fully wireless to PC via a dedicated 2.4 GHz USB Dongle (Receiver).
-* **Power:** Autonomous battery power (CR2032 coin cells / internal battery). No external USB port on the halves.
-* **Roles:**
-  * **USB Dongle (Host / Central):** Microcontroller (Nordic nRF52840 / Seeed XIAO BLE) connected via USB to your computer. It receives wireless packets from both halves, manages keymaps, layers, macros, and combos, and sends standard USB HID keystrokes to the OS.
-  * **Left & Right Halves (Peripherals):** Scan key switch matrices and transmit press events over radio to the dongle.
-
----
-
-## 3. Dedicated Language Switching (RU / EN)
-
-Instead of overloading common modifier combos (`Ctrl+Shift` or `Alt+Shift`), the right-half Row 2 outer key is mapped to the virtual function key **`F24`** (`KC_F24`).
-
-### Why `F24`?
-* Standard keyboards only have F1–F12, but the USB HID / Linux spec supports up to F24.
-* It **never conflicts** with terminal shortcuts, browser tabs, or code editors.
-* Single physical click produces a clean, dedicated event.
+The right-half Row 2 outer key is mapped to **`F24`** (`KC_F24`), avoiding any desktop modifier collisions.
 
 ### Hyprland Configuration:
-Add this bind in your Hyprland configuration (`hyprland.lua` or `hyprland.conf`):
-
+Add to `hyprland.lua`:
 ```lua
--- In hyprland.lua
 hl.bind("", "F24", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
 ```
 
-Or in classic `hyprland.conf`:
-```ini
-bind = , F24, exec, hyprctl switchxkblayout all next
-```
-
 ---
 
-## 4. Battery & Hardware Diagnostics
+## 3. Applying Multi-Layer Layout via CLI
 
-### Symptoms of Low Battery:
-* Skipped keystrokes, chatter, or delayed response.
-* One half suddenly stops responding (the left half usually drains faster as it transmits more service packets).
-
-### Battery Verification:
-1. **CR2032 Voltage:**
-   * Nominal: `3.0V`.
-   * Unstable radio threshold: below `2.8V - 2.7V`.
-2. **Replacement Checklist:**
-   * Remove any protective plastic film on the negative terminal of new batteries.
-   * Verify polarity: positive (`+`, smooth side with label) faces upward.
-   * Ensure battery spring contacts are firm.
-   * Check physical power switches on each half.
-   * If a half hangs after battery insertion, click the onboard **Reset** button.
-
----
-
-## 5. Linux / NixOS Diagnostics
-
-### Check USB Dongle:
+Run from the repository root:
 ```bash
-nix-shell -p usbutils --run lsusb
-# or
-sudo dmesg -T | tail -n 30
+nix-shell -p jq --run ./apply_layout.sh
 ```
-
-### Serial CDC Logs & Battery Levels:
-Most ZMK / Vial dongles expose a virtual serial interface:
-```bash
-# List serial devices
-ls -l /dev/ttyACM*
-
-# Read live logs and battery status (exit: Ctrl+A, then Ctrl+X)
-nix-shell -p picocom --run "picocom -b 115200 /dev/ttyACM0"
-```
-The console prints connection states and battery percentages (`left battery: XX%`, `right battery: XX%`).
-
-### Live Event Debugging:
-```bash
-sudo evtest
-# or
-sudo libinput debug-events
-```
-
----
-
-## 6. Applying Layout via CLI
-
-1. Ensure `vitaly` and `jq` are available in your environment:
-   ```bash
-   nix-shell -p jq --run ./apply_layout.sh
-   ```
-2. The script applies every key in `layout.json` to Layer 0 on the keyboard via the Vial HID protocol.
+The script programs Layer 0 (Base), Layer 1 (Lower/Numbers/Х/Ъ/Ё), and Layer 2 (Raise/Nav/Media) directly into the keyboard via `vitaly`.
