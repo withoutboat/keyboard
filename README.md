@@ -1,112 +1,103 @@
 # Corne Wireless (W-Corne / DH747) Keyboard Setup & Notes
 
-Заметки по настройке, диагностике и декларативной кастомизации сплит-клавиатуры **W-Corne (DH747)**.
+Documentation and declarative configuration for the **W-Corne (DH747)** split ergonomic keyboard.
 
 ![Keymap Visualization](./keymap.svg)
 
 ---
 
-## 1. Структура репозитория
+## 1. Repository Structure
 
-* `keymap.yaml` — декларативное описание всех слоев (QWERTY, Lower, Raise) для визуализации.
-* `.github/workflows/draw.yml` — GitHub Action, который при каждом push автоматически генерирует `keymap.svg` через `keymap-drawer`.
-* `layout.json` — конфигурация раскладки с QMK-кейкодами для программной записи в клавиатуру.
-* `apply_layout.sh` — Bash-скрипт отправки раскладки в клавиатуру через `vitaly` и `jq`.
-
----
-
-## 2. Архитектура устройства
-
-* **Форм-фактор:** Corne (CRKBD) 42/36 клавиш, сплит (две раздельные половины).
-* **Тип подключения:** Полностью беспроводное к ПК через выделенный USB-донгл (приёмник 2.4 GHz / Bluetooth LE).
-* **Питание половинок:** Автономное, без внешних USB-разъёмов для подключения к ПК (батарейки CR2032 или встроенные аккумуляторы).
-* **Роли в связке:**
-  * **USB-донгл (Central / Host):** Полноценный микроконтроллер (Nordic nRF52840, Seeed XIAO BLE или аналог), подключённый к ПК по USB. Он принимает радиопакеты с матриц обеих половинок, хранит в себе карту раскладки, слои, комбо и макросы, и передаёт стандартный USB HID ввод в операционную систему.
-  * **Левая и правая половины (Peripherals):** Сканируют матрицу переключателей и передают сигналы нажатий на донгл. Раздельные половины не подключаются напрямую к ПК кабелем.
+* `keymap.yaml` — Declarative definition of all layers (QWERTY, Lower, Raise) rendered via `keymap-drawer`.
+* `.github/workflows/draw.yml` — GitHub Action that automatically regenerates `keymap.svg` on every push.
+* `layout.json` — Matrix layout with QMK keycodes for programming the hardware directly.
+* `apply_layout.sh` — Pure Bash script applying `layout.json` to the keyboard via the `vitaly` CLI and `jq`.
 
 ---
 
-## 2. Диагностика питания и батарей
+## 2. Hardware Architecture
 
-### Симптомы разряда:
-* Клавиатура начинает пропускать символы, «залипать» или двоить нажатия.
-* Одна из половин внезапно отключается (левая половина обычно садится быстрее, так как передаёт больше служебных пакетов).
-
-### Проверка батарей:
-1. **Напряжение (CR2032):**
-   * Номинал: `3.0V`.
-   * Порог нестабильной работы радиомодуля: ниже `2.8V - 2.7V` (контроллер может стартовать, но передатчику не хватает мощности).
-2. **Типичные нюансы при замене:**
-   * Проверить защитную прозрачную наклейку на минусовом контакте новой батарейки.
-   * Полярность: «+» (гладкая сторона с маркировкой) смотрит наружу/вверх.
-   * Проверить прилегание язычка контакта в посадочном гнезде.
-   * Проверить тумблер включения/выключения на корпусе половинки.
-   * При зависании контроллера после смены элемента нажать аппаратную кнопку **Reset** на половинке.
+* **Form Factor:** Corne (CRKBD) split layout (3x6 column-staggered + 3 thumb keys per half + 2 extra vertical macro keys).
+* **Connectivity:** Fully wireless to PC via a dedicated 2.4 GHz USB Dongle (Receiver).
+* **Power:** Autonomous battery power (CR2032 coin cells / internal battery). No external USB port on the halves.
+* **Roles:**
+  * **USB Dongle (Host / Central):** Microcontroller (Nordic nRF52840 / Seeed XIAO BLE) connected via USB to your computer. It receives wireless packets from both halves, manages keymaps, layers, macros, and combos, and sends standard USB HID keystrokes to the OS.
+  * **Left & Right Halves (Peripherals):** Scan key switch matrices and transmit press events over radio to the dongle.
 
 ---
 
-## 3. Диагностика в Linux / NixOS
+## 3. Language Switching (RU / EN)
 
-### Проверка видимости донгла по USB:
+In `layout.json`, the right-half Row 2 outer key (where the Enter keycap is located) is mapped to **`Ctrl + Shift`** (`C(KC_LSFT)`).
+
+To use this for layout switching in **Hyprland / NixOS**, configure:
+
+```lua
+-- In hyprland.lua (or hyprland input config)
+hl.config({
+  input = {
+    kb_layout = "us,ru",
+    kb_options = "grp:ctrl_shift_toggle",
+  },
+})
+```
+
+Now pressing that key triggers a clean language switch with a single finger.
+
+---
+
+## 4. Battery & Hardware Diagnostics
+
+### Symptoms of Low Battery:
+* Skipped keystrokes, chatter, or delayed response.
+* One half suddenly stops responding (the left half usually drains faster as it transmits more service packets).
+
+### Battery Verification:
+1. **CR2032 Voltage:**
+   * Nominal: `3.0V`.
+   * Unstable radio threshold: below `2.8V - 2.7V`.
+2. **Replacement Checklist:**
+   * Remove any protective plastic film on the negative terminal of new batteries.
+   * Verify polarity: positive (`+`, smooth side with label) faces upward.
+   * Ensure battery spring contacts are firm.
+   * Check physical power switches on each half.
+   * If a half hangs after battery insertion, click the onboard **Reset** button.
+
+---
+
+## 5. Linux / NixOS Diagnostics
+
+### Check USB Dongle:
 ```bash
-# Проверить подключение устройства
 nix-shell -p usbutils --run lsusb
-# или
+# or
 sudo dmesg -T | tail -n 30
 ```
 
-### Логирование и мониторинг заряда через виртуальный COM-порт:
-Большинство ZMK-донглов поднимают интерфейс USB CDC (Serial):
+### Serial CDC Logs & Battery Levels:
+Most ZMK / Vial dongles expose a virtual serial interface:
 ```bash
-# Проверить наличие устройства
+# List serial devices
 ls -l /dev/ttyACM*
 
-# Подключиться к выводу логов (выход: Ctrl+A, затем Ctrl+X)
+# Read live logs and battery status (exit: Ctrl+A, then Ctrl+X)
 nix-shell -p picocom --run "picocom -b 115200 /dev/ttyACM0"
 ```
-В консоли отображаются события нажатий, статус подключения половинок (`central/peripheral connected`) и уровень заряда батарей (`left battery: XX%`, `right battery: XX%`).
+The console prints connection states and battery percentages (`left battery: XX%`, `right battery: XX%`).
 
-### Проверка ввода:
+### Live Event Debugging:
 ```bash
 sudo evtest
-# или
+# or
 sudo libinput debug-events
 ```
 
 ---
 
-## 4. Управление раскладкой и перепрошивка
+## 6. Applying Layout via CLI
 
-Так как половинки работают как периферия, **вся раскладка, слои и макросы прошиваются непосредственно в USB-донгл**.
-
-### Способы настройки:
-
-1. **ZMK Studio (на лету в браузере):**
-   * Если в прошивке донгла включена поддержка ZMK Studio, перепрошивка не требуется.
-   * Сайт: [zmk.studio](https://zmk.studio) (в Chromium-браузере через WebHID).
-
-2. **GitHub Actions + ZMK Config (рекомендуемый):**
-   * Создаётся репозиторий `zmk-config` на базе шаблона ZMK.
-   * Описание слоёв и клавиш ведётся в файле `config/corne.keymap` (синтаксис Devicetree).
-   * Визуальный редактор раскладки: [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) (синхронизируется напрямую с репозиторием GitHub).
-   * GitHub Actions автоматически компилирует файл прошивки `corne_dongle.uf2`.
-
-3. **Локальная сборка:**
-   * Сборка через `west` в Nix devShell или Docker-контейнере ZMK.
-
----
-
-## 5. Загрузка прошивки в донгл
-
-Для обновления раскладки донгл переводится в режим загрузчика (UF2 Mass Storage):
-
-1. **Программный перевод через клавиатуру:**
-   * Нажатие клавиши с поведением `&bootloader` на сервисном слое (Adjust / Fn).
-2. **Через терминал Linux (Magic Baudrate 1200):**
+1. Ensure `vitaly` and `jq` are available in your environment (or use Nix):
    ```bash
-   stty -F /dev/ttyACM0 1200
+   nix-shell -p jq --run ./apply_layout.sh
    ```
-3. **Аппаратный сброс:**
-   * Двойное быстрое нажатие кнопки Reset на контроллере донгла (если выведена кнопка или отверстие под скрепку).
-
-После входа в bootloader донгл монтируется как съемный USB-диск (например, `NICENANO` или `NRF52BOOT`). Скомпилированный файл `.uf2` копируется в корень диска, после чего устройство автоматически перезагружается с обновлённой прошивкой.
+2. The script applies every key in `layout.json` to Layer 0 on the keyboard via the Vial HID protocol.
