@@ -31,6 +31,8 @@ layer_count=$(jq '.layers | length' "$LAYOUT_FILE")
 echo ""
 echo "==> Found $layer_count layers to apply from layout.json..."
 
+failed_count=0
+
 for ((layer = 0; layer < layer_count; layer++)); do
   layer_name=$(jq -r ".layers[$layer].name" "$LAYOUT_FILE")
   echo ""
@@ -41,12 +43,18 @@ for ((layer = 0; layer < layer_count; layer++)); do
     col_count=$(jq ".layers[$layer].matrix[$row] | length" "$LAYOUT_FILE")
     for ((col = 0; col < col_count; col++)); do
       keycode=$(jq -r ".layers[$layer].matrix[$row][$col]" "$LAYOUT_FILE")
-      vitaly set-key --layer "$layer" --row "$row" --col "$col" "$keycode" || {
+      vitaly keys --layer "$layer" --position "${row},${col}" --value "$keycode" || {
         echo "Warning: failed setting Layer $layer R${row}C${col} -> $keycode"
+        failed_count=$((failed_count + 1))
       }
     done
   done
 done
 
 echo ""
+if [ "$failed_count" -gt 0 ]; then
+  echo "==> Completed with $failed_count error(s)."
+  exit 1
+fi
+
 echo "==> Done! All layers applied successfully."
