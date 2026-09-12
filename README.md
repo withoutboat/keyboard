@@ -26,23 +26,27 @@ Documentation and declarative configuration for the **W-Corne (DH747)** split er
 
 ---
 
-## 3. Language Switching (RU / EN)
+## 3. Dedicated Language Switching (RU / EN)
 
-In `layout.json`, the right-half Row 2 outer key (where the Enter keycap is located) is mapped to **`Ctrl + Shift`** (`C(KC_LSFT)`).
+Instead of overloading common modifier combos (`Ctrl+Shift` or `Alt+Shift`), the right-half Row 2 outer key is mapped to the virtual function key **`F24`** (`KC_F24`).
 
-To use this for layout switching in **Hyprland / NixOS**, configure:
+### Why `F24`?
+* Standard keyboards only have F1–F12, but the USB HID / Linux spec supports up to F24.
+* It **never conflicts** with terminal shortcuts, browser tabs, or code editors.
+* Single physical click produces a clean, dedicated event.
+
+### Hyprland Configuration:
+Add this bind in your Hyprland configuration (`hyprland.lua` or `hyprland.conf`):
 
 ```lua
--- In hyprland.lua (or hyprland input config)
-hl.config({
-  input = {
-    kb_layout = "us,ru",
-    kb_options = "grp:ctrl_shift_toggle",
-  },
-})
+-- In hyprland.lua
+hl.bind("", "F24", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
 ```
 
-Now pressing that key triggers a clean language switch with a single finger.
+Or in classic `hyprland.conf`:
+```ini
+bind = , F24, exec, hyprctl switchxkblayout all next
+```
 
 ---
 
@@ -96,7 +100,7 @@ sudo libinput debug-events
 
 ## 6. Applying Layout via CLI
 
-1. Ensure `vitaly` and `jq` are available in your environment (or use Nix):
+1. Ensure `vitaly` and `jq` are available in your environment:
    ```bash
    nix-shell -p jq --run ./apply_layout.sh
    ```

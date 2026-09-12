@@ -9,7 +9,7 @@ layout:
 layers:
   Base (QWERTY):
     - [Esc,   Q, W, E, R, T,    Y, U, I,     O,   P,    Bspc]
-    - [Tab,   A, S, D, F, G,    H, J, K,     L,   ';',  {t: "Lang", h: "C+S"}]
+    - [Tab,   A, S, D, F, G,    H, J, K,     L,   ';',  {t: "Lang", h: "F24"}]
     - [Shift, Z, X, C, V, B,    N, M, ',',   '.', '/',  Shift]
     - [Ctrl,  Win, Space,       Enter, Fn, Ctrl]
 
