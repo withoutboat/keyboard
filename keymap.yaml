@@ -5,19 +5,19 @@ layout:
 
 layers:
   "Base (EN / RU)":
-    - [Esc,   {t: "Q", br: "Й"}, {t: "W", br: "Ц"}, {t: "E", br: "У"}, {t: "R", br: "К"}, {t: "T", br: "Е"},    {t: "Y", br: "Н"}, {t: "U", br: "Г"}, {t: "I", br: "Ш"}, {t: "O", br: "Щ"}, {t: "P", br: "З"},   Bspc]
-    - [Tab,   {t: "A", br: "Ф"}, {t: "S", br: "Ы"}, {t: "D", br: "В"}, {t: "F", br: "А"}, {t: "G", br: "П"},    {t: "H", br: "Р"}, {t: "J", br: "О"}, {t: "K", br: "Л"}, {t: "L", br: "Д"}, {t: ";", br: "Ж"},  {t: "Lang", h: "F24"}]
-    - [Shift, {t: "Z", br: "Я"}, {t: "X", br: "Ч"}, {t: "C", br: "С"}, {t: "V", br: "М"}, {t: "B", br: "И"},    {t: "N", br: "Т"}, {t: "M", br: "Ь"}, {t: ",", br: "Б"}, {t: ".", br: "Ю"}, {t: "/", br: "."},  Shift]
-    - [Ctrl,  Win, Space,                                                                                              Enter,            {t: "Fn", h: "Num"}, {t: "Ctrl", h: "Sym"}]
+    - [Esc,   "Q Й", "W Ц", "E У", "R К", "T Е",    "Y Н", "U Г", "I Ш", "O Щ", "P З", Bspc]
+    - [Tab,   "A Ф", "S Ы", "D В", "F А", "G П",    "H Р", "J О", "K Л", "L Д", "; Ж", {t: "Lang", h: "F24"}]
+    - [Shift, "Z Я", "X Ч", "C С", "V М", "B И",    "N Т", "M Ь", ", Б", ". Ю", "/ .", Shift]
+    - [Ctrl,  Win, Space,                           Enter, {t: "Fn", h: "Num"}, {t: "Ctrl", h: "Sym"}]
 
   "Lower (Num & Ru: Х Ъ Ё)":
-    - [{t: "`", br: "Ё"}, 1, 2, 3, 4, 5,    6, 7, 8, 9, 0, Del]
-    - [Trans, Trans, Trans, Trans, Trans, Trans,    {t: "[", br: "Х"}, {t: "]", br: "Ъ"}, '=', '-', '\\', Trans]
+    - ["` Ё", 1, 2, 3, 4, 5,                        6, 7, 8, 9, 0, Del]
+    - [Trans, Trans, Trans, Trans, Trans, Trans,    "[ Х", "] Ъ", '=', '-', '\\', Trans]
     - [Trans, Trans, Trans, Trans, Trans, Trans,    Trans, Trans, Trans, Trans, Trans, Trans]
     - [Trans, Trans, Trans,                         Trans, Trans, Trans]
 
   "Raise (Nav & Media)":
-    - [F1,    F2,   F3,   F4,   F5,   F6,     F7,    F8,     F9,   F10,  F11,   F12]
-    - [Trans, Left, Down, Up,   Right, Home,   PgUp,  Left,   Down, Up,   Right, Trans]
-    - [Trans, Trans, Mute, VolDown, VolUp, End,    PgDn,  Prev,   Play, Next,  Trans, Trans]
-    - [Trans, Trans, Trans,                    Trans, Trans,  Trans]
+    - [F1,    F2,   F3,   F4,   F5,   F6,           F7,    F8,     F9,   F10,  F11,   F12]
+    - [Trans, Left, Down, Up,   Right, Home,         PgUp,  Left,   Down, Up,   Right, Trans]
+    - [Trans, Trans, Mute, VolDown, VolUp, End,          PgDn,  Prev,   Play, Next,  Trans, Trans]
+    - [Trans, Trans, Trans,                          Trans, Trans,  Trans]
