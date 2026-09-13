@@ -2,23 +2,23 @@ layout:
   qmk_info_json: "corne46_info.json"
 
 layers:
-  "Base (0) [F20]":
+  "Base (0) [F13]":
     - [Esc,   "Q Й", "W Ц", "E У", "R К", "T Е",    "Y Н", "U Г", "I Ш", "O Щ", "P З", Bspc]
-    - [Tab,   "A Ф", "S Ы", "D В", "F А", "G П",    "H Р", "J О", "K Л", "L Д", "; Ж", {t: "Lang", h: "F24"}]
+    - [Tab,   "A Ф", "S Ы", "D В", "F А", "G П",    "H Р", "J О", "K Л", "L Д", "; Ж", Ctrl]
     - [Shift, "Z Я", "X Ч", "C С", "V М", "B И",    "N Т", "M Ь", ", Б", ". Ю", "/ .", Shift]
-    - [Ctrl,  Win, Space,                           Enter, {t: "Fn", h: "Num (F21)"}, {t: "Del", h: "Nav (F22)"}]
-    - [Caps, Alt,                                   Ctrl, Alt]
+    - [Ctrl,  Win, Space,                           Enter, {t: "Fn", h: "Num (F14)"}, {t: "Del", h: "Nav (F15)"}]
+    - [Caps, Alt,                                   {t: "Lang", h: "F24"}, Alt]
 
-  "Lower (1) [F21] (Num & Ru: Х Ъ Ё)":
+  "Lower (1) [F14] (Num & Ru: Х Ъ Ё)":
     - ["` Ё", 1, 2, 3, 4, 5,                        6, 7, 8, 9, 0, Del]
     - [Trans, Trans, Trans, Trans, Trans, Trans,    "[ Х", "] Ъ", '=', '-', '\\', Trans]
     - [Trans, Trans, Trans, Trans, Trans, Trans,    Trans, Trans, Trans, Trans, Trans, Trans]
-    - [Trans, Trans, Trans,                         Trans, {t: "Base", h: "F20"}, Trans]
+    - [Trans, Trans, Trans,                         Trans, {t: "Base", h: "F13"}, Trans]
     - [Trans, Trans,                                Trans, Trans]
 
-  "Raise (2) [F22] (Nav & Media)":
+  "Raise (2) [F15] (Nav & Media)":
     - [F1,    F2,   F3,   F4,   F5,   F6,           F7,    F8,     F9,   F10,  F11,   F12]
     - [Trans, Left, Down, Up,   Right, Home,         PgUp,  Left,   Down, Up,   Right, Trans]
     - [Trans, Trans, Mute, VolDown, VolUp, End,          PgDn,  Prev,   Play, Next,  Trans, Trans]
-    - [Trans, Trans, Trans,                          Trans, Trans, {t: "Base", h: "F20"}]
+    - [Trans, Trans, Trans,                          Trans, Trans, {t: "Base", h: "F13"}]
     - [Trans, Trans,                                Trans, Trans]
