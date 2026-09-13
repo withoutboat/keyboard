@@ -26,6 +26,10 @@ fi
 echo "==> Connected keyboards:"
 vitaly devices || true
 
+echo "==> Configuring TapDance slots for Layer switching..."
+vitaly tapdances -n 0 -v "TG(1) + MO(1) + KC_NO + KC_NO ~ 200" || true
+vitaly tapdances -n 1 -v "TG(2) + MO(2) + KC_NO + KC_NO ~ 200" || true
+
 layer_count=$(jq '.layers | length' "$LAYOUT_FILE")
 
 echo ""
