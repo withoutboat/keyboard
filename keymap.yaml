@@ -4,10 +4,10 @@ layout:
 layers:
   "Base (0) [F20]":
     - [Esc,   "Q Й", "W Ц", "E У", "R К", "T Е",    "Y Н", "U Г", "I Ш", "O Щ", "P З", Bspc]
-    - [Tab,   "A Ф", "S Ы", "D В", "F А", "G П",    "H Р", "J О", "K Л", "L Д", "; Ж", {t: "Lang", h: "F24"}]
+    - [Tab,   "A Ф", "S Ы", "D В", "F А", "G П",    "H Р", "J О", "K Л", "L Д", "; Ж", Ctrl]
     - [Shift, "Z Я", "X Ч", "C С", "V М", "B И",    "N Т", "M Ь", ", Б", ". Ю", "/ .", Shift]
     - [Ctrl,  Win, Space,                           Enter, {t: "Fn", h: "Num (F21)"}, {t: "Del", h: "Nav (F22)"}]
-    - [Caps, Alt,                                   Ctrl, Alt]
+    - [Caps, Alt,                                   {t: "Lang", h: "F24"}, Alt]
 
   "Lower (1) [F21] (Num & Ru: Х Ъ Ё)":
     - ["` Ё", 1, 2, 3, 4, 5,                        6, 7, 8, 9, 0, Del]

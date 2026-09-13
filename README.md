@@ -13,7 +13,7 @@ Declarative multi-layer configuration and automated keymap drawer for **DH747 W-
    * 6 thumb keys (3 per half).
    * 4 vertical macro side keys:
      * **Left**: `Caps Lock` (top), `Left Alt` (bottom).
-     * **Right**: `Right Ctrl` (top), `Right Alt` (bottom).
+     * **Right**: `F24` (Language switch, top), `Right Alt` (bottom).
 
 2. **Hold / Tap Layer Switching**:
    * **Fn (Lower Layer 1 - Num & Ru: Х Ъ Ё)**:
@@ -24,7 +24,7 @@ Declarative multi-layer configuration and automated keymap drawer for **DH747 W-
      * **Tap**: Sends `F22` to notify system/Waybar and locks into Layer 2. Tap again to return to Base (`F20`).
 
 3. **Dedicated Language Switch (`F24`)**:
-   * Semicolon column outer key on the Base layer is mapped to `KC_F24`.
+   * Right half top macro key is mapped to `KC_F24`, while the middle outer key (next to semicolon) is `Right Ctrl`.
    * Bind in `hyprland.conf`:
      ```ini
      bind = , F24, exec, hyprctl switchxkblayout all next
