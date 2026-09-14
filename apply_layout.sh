@@ -26,6 +26,22 @@ fi
 echo "==> Connected keyboards:"
 vitaly devices || true
 
+# Temporarily stop vial-daemon if active to prevent raw HID contention on /dev/hidraw*
+restart_vial_daemon=false
+if systemctl --user is-active --quiet vial-daemon 2>/dev/null; then
+  echo "==> Temporarily pausing vial-daemon during layout update..."
+  systemctl --user stop vial-daemon || true
+  restart_vial_daemon=true
+fi
+
+cleanup() {
+  if [ "$restart_vial_daemon" = true ]; then
+    echo "==> Restarting vial-daemon..."
+    systemctl --user start vial-daemon || true
+  fi
+}
+trap cleanup EXIT
+
 echo "==> Configuring settings (Permissive Hold for fast Tap/Hold resolution)..."
 vitaly settings -q 8.0 -v true || true
 
