@@ -18,7 +18,7 @@ layers:
 
   "Raise (2) [F15] (Nav & Media)":
     - [Esc,   F1,   F2,   F3,   F4,   F5,           F6,   F7,    F8,   F9,   F10,  Bspc]
-    - [Tab,   Home, PgUp, PgDn, End,  Ins,          Left, Down,  Up,   Right, End,  Del]
+    - [Tab,   Home, End,  PgDn, PgUp, Ins,          Left, Down,  Up,   Right, End,  Del]
     - [Shift, Mute, VolDown, VolUp, Prev, Play,     Trans, Trans, Trans, Trans, Trans, Shift]
     - [Trans, Trans, Trans,                         Enter, Trans, {t: "Base", h: "F13"}]
     - [Trans, Trans,                                Trans, Next]
